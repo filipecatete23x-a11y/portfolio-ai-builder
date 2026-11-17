@@ -1,0 +1,40 @@
+name: Verificação de segurança e testes
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Procurar possíveis credenciais
+        run: python3 scripts/verificar_segredos.py
+      - name: Testar demo Python
+        run: |
+          python3 -m py_compile demo_acervo/acervo.py
+          cd demo_acervo
+          python3 acervo.py init
+          python3 acervo.py add --title "Teste" --source "Fictício" --file exemplo.txt
+          python3 acervo.py search --term "roteador"
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar dependências da demonstração Node.js
+        working-directory: demo_cronometro_web
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Testar cronômetro
+        working-directory: demo_cronometro_web
+        run: npm test
+      - name: Auditar dependências
+        working-directory: demo_cronometro_web
+        run: npm audit --audit-level=high
