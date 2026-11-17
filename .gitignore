@@ -1,6 +1,7 @@
 # Não publicar arquivos de trabalho ou informações sensíveis
 .env
 .env.*
+!.env.example
 *.key
 *.pem
 *.db
@@ -17,3 +18,13 @@ venv/
 *.srt
 *.csv
 .DS_Store
+
+# Outros arquivos de credenciais e dados locais
+credentials.json
+service-account.json
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+node_modules/
+coverage/

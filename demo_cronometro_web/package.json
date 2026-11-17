@@ -1,0 +1,17 @@
+{
+  "name": "demo-cronometro-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demonstração independente de cronômetro local usando Node.js e WebSocket",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "ws": "^8.18.3"
+  }
+}

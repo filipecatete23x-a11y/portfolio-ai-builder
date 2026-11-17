@@ -18,9 +18,11 @@ Meu interesse na área de **AI Builder** é aplicar IA de maneira útil, com val
 | [Corretor IA](projetos/corretor-ia.md) | Apoio à revisão de textos com aprovação humana | Python, Tkinter, LanguageTool | Em desenvolvimento |
 | [Automação de processos de vídeo](projetos/automacao-video.md) | Estudo de filas, validação de arquivos e transcodificação de vídeo | Python, FFmpeg | Em desenvolvimento |
 
-### Demonstração pública de código
+### Demonstrações públicas de código
 
 Para apresentar uma amostra verificável de programação, preparei a **[Demo de Acervo em Python + SQLite](demo_acervo/README.md)**: um pequeno programa independente que cadastra e pesquisa textos localmente. **É uma demonstração de portfólio, não o código original de sistemas utilizados em ambientes profissionais**. Pode ser executado no terminal sem bibliotecas externas.
+
+Também há a **[Demo de Cronômetro Web em Node.js + WebSocket](demo_cronometro_web/README.md)**: um exemplo independente, local e didático que sincroniza a contagem entre abas. **Não é o código original do projeto acadêmico.**
 
 ### Como utilizo IA no desenvolvimento
 
@@ -46,3 +48,8 @@ Veja [exemplos de práticas e prompts](praticas_ia/como-uso-ia.md). Os exemplos 
 - **Contato:** pelo perfil do GitHub. Dados de contato adicionais estão no currículo encaminhado aos recrutadores.
 
 > **Nota de responsabilidade:** este repositório reúne apresentações de projetos pessoais/acadêmicos, estudos de caso sem detalhes operacionais sensíveis e uma demonstração independente. Não publica credenciais, dados internos, arquivos de produção ou código de propriedade de terceiros. Os estágios dos projetos são indicados individualmente; nenhuma economia mensurável ou implantação em produção é alegada sem evidências.
+
+
+## Transparência, testes e segurança
+
+Confira [SEGURANCA.md](SEGURANCA.md) para o processo de publicação, autoria e proteção de credenciais. O repositório inclui testes da demonstração Web, testes básicos da demonstração Python e verificações automatizadas via GitHub Actions. Essas verificações não substituem uma análise humana dos dados nem uma auditoria completa do histórico.

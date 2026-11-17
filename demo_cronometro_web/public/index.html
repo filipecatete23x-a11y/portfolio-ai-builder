@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Mini Cronômetro — demonstração independente</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color-scheme: dark; }
+    body { background: #101827; color: #f4f7fb; margin: 0; padding: 2rem; }
+    main { max-width: 720px; margin: 7vh auto; text-align: center; }
+    .card { border: 1px solid #334155; border-radius: 20px; padding: 2rem; background: #1e293b; }
+    h1 { font-size: 1.5rem; } .clock { font-variant-numeric: tabular-nums; font-size: clamp(5rem, 18vw, 9rem); font-weight: 800; margin: 1rem 0; }
+    button { background: #38bdf8; color: #001321; padding: .85rem 1.2rem; border: 0; border-radius: 10px; font-weight: 700; cursor: pointer; margin: .3rem; }
+    button:focus-visible, a:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+    a { color: #7dd3fc; } .subtle { color: #cbd5e1; } .message { min-height: 1.5rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Mini Cronômetro Web</h1>
+    <p class="subtle">Demonstração independente de Node.js + WebSocket. Não é o sistema original de debates.</p>
+    <div class="card">
+      <div class="clock" id="clock" role="timer" aria-label="Tempo restante">01:30</div>
+      <p id="status" class="subtle">Conectando…</p>
+      <div id="controls">
+        <button type="button" data-action="start">Iniciar</button>
+        <button type="button" data-action="pause">Pausar</button>
+        <button type="button" data-action="reset">Reiniciar</button>
+      </div>
+      <p id="message" class="message" aria-live="polite"></p>
+    </div>
+    <p><a href="/?mode=display" target="_blank" rel="noopener noreferrer">Abrir tela de exibição em outra aba</a></p>
+  </main>
+  <script>
+    "use strict";
+    const clock = document.getElementById("clock");
+    const status = document.getElementById("status");
+    const message = document.getElementById("message");
+    if (new URLSearchParams(location.search).get("mode") === "display") {
+      document.getElementById("controls").hidden = true;
+    }
+    function render(state) {
+      const seconds = Number(state.remainingSeconds);
+      if (!Number.isSafeInteger(seconds) || seconds < 0 || seconds > 3600) return;
+      clock.textContent = `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
+      status.textContent = state.running ? "Em contagem" : "Pausado / pronto";
+    }
+    let ws;
+    function connect() {
+      ws = new WebSocket(`ws://${location.host}/ws`);
+      ws.onopen = () => { message.textContent = ""; };
+      ws.onmessage = event => {
+        try { render(JSON.parse(event.data)); } catch (_) { message.textContent = "Erro de leitura do estado."; }
+      };
+      ws.onclose = () => {
+        status.textContent = "Sem conexão";
+        setTimeout(connect, 1500);
+      };
+      ws.onerror = () => ws.close();
+    }
+    document.querySelectorAll("button[data-action]").forEach(button => {
+      button.addEventListener("click", async () => {
+        try {
+          const response = await fetch("/api/command", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: button.dataset.action })
+          });
+          if (!response.ok) throw new Error("Comando não aceito.");
+          render(await response.json());
+          message.textContent = "";
+        } catch (_) { message.textContent = "Não foi possível enviar o comando."; }
+      });
+    });
+    connect();
+  </script>
+</body>
+</html>
