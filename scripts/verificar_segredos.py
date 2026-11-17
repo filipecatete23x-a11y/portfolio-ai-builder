@@ -27,7 +27,7 @@ def main() -> int:
     problems = []
     for path in filter(None, paths):
         suffix = Path(path).suffix.lower()
-        if BAD_NAMES.search(path) or suffix in BAD_SUFFIXES:
+        if path != ".env.example" and (BAD_NAMES.search(path) or suffix in BAD_SUFFIXES):
             problems.append((path, "nome de arquivo potencialmente sensível"))
         file = Path(path)
         if not file.is_file():
