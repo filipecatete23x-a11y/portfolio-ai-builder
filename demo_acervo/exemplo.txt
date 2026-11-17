@@ -1,0 +1,1 @@
+Um roteador encaminha pacotes entre redes diferentes. Um switch conecta dispositivos em uma rede local. Em estudos de redes, é útil guardar resumos em texto e pesquisar conceitos depois.

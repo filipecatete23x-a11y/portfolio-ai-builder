@@ -1,0 +1,19 @@
+# Não publicar arquivos de trabalho ou informações sensíveis
+.env
+.env.*
+*.key
+*.pem
+*.db
+*.sqlite
+*.sqlite3
+*.log
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.mp4
+*.mxf
+*.mov
+*.srt
+*.csv
+.DS_Store
